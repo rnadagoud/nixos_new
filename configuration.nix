@@ -10,6 +10,27 @@
       ./hardware-configuration.nix
     ];
 
+  hardware.graphics = {
+    enable = true;
+  };
+
+  services.xserver.videoDrivers = ["nvidia"];
+
+  hardware.nvidia = {
+
+    modesetting.enable = true;
+
+    powerManagement.enable = false;
+
+    powerManagement.finegrained = false;
+
+    open = true;
+
+    nvidiaSettings = true;
+
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+  };  
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -101,8 +122,9 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
+   vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+   wget
+   git
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
