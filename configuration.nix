@@ -87,7 +87,7 @@
   users.users.rnadagoud = {
     isNormalUser = true;
     description = "Rahul Nadagoud";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
       kdePackages.kate
     #  thunderbird
@@ -214,7 +214,6 @@
 
 
   virtualisation.docker.enable = true;
-  users.users.rnadagoud.extraGroups = [ "docker" ];
 
   services.openssh.enable = true;
 
