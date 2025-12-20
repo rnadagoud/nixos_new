@@ -125,6 +125,88 @@
    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
    wget
    git
+   # comms and social
+   discord
+   slack
+   zoom
+   # media & Entertainment
+   vlc
+   spotify
+   obs-studio
+   cava
+   easyeffects
+   # Browsers & Web
+   tor
+   tor-browser
+   # development Tools
+   vscode
+   android-studio
+   docker
+   docker-compose
+   neovim
+   kitty
+   alacritty
+   mold
+   # Virtualization
+   virt-manager
+   qemu_full
+   # File Management & Utilities
+   kdePackages.dolphin
+   nautilus
+   btop
+   rsync
+   aria2
+   # Office & Productivity
+   libreoffice-still
+   obsidian
+   anki
+   foliate
+   # gaming
+   steam
+   lutris
+   heroic
+   qbittorrent
+   # Graphics & Design
+   blender
+   gimp
+   imagemagick
+   inkscape
+   # System Utilities
+   brightnessctl
+   dunst
+   fuzzel
+   wofi
+   hyprshot
+   wl-clipboard
+   cliphist
+   playerctl
+   pavucontrol
+   # Fonts
+   noto-fonts
+   nerd-fonts.jetbrains-mono
+   hack-font
+   twemoji-color-font
+   # Development Languages/Runtimes
+   python315
+   nodejs_24
+   yarn
+   rustup
+   go
+   # CLI Tools
+   bat
+   eza
+   fish
+   starship
+   ripgrep
+   ripgrep-all
+   tree-sitter
+   jq
+   fzf
+   # Other Applications
+   postman
+   cameractrls
+   nwg-displays
+   translate-shell
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
