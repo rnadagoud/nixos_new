@@ -1,9 +1,10 @@
-{ config, pkgs, zen-browser, ... }:
+{ config, pkgs, hyprland, illogical-impulse, zen-browser, ... }:
 
 {
   imports =
     [ 
       ./hardware-configuration.nix
+      illogical-impulse.nixosModules.default
     ];
 
   hardware.graphics = {
@@ -54,8 +55,20 @@
 
   services.xserver.enable = true;
 
-  services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
+  services.xserver.enable = true;
+
+  services.xserver.displayManager.gdm = {
+    enable = true;
+    wayland = true;
+  };
+  
+  programs.hyprland = {
+    enable = true;
+    package = hypr.hyprland;
+    xwayland.enable = true;
+  };
+
+
 
   services.xserver.xkb = {
     layout = "us";
@@ -82,6 +95,31 @@
     #  thunderbird
     ];
   };
+
+  illogical-impulse = {
+    enable = true;
+    
+    hyprland = {
+      monitor = [ ",preferred,auto,1" ];
+      package = hypr.hyprland;
+      xdgPortalPackage = hypr.xdg-desktop-portal-hyprland;
+      ozoneWayland.enable = true;
+    };
+    
+    theme = {
+      cursor = {
+        package = pkgs.bibata-cursors;
+        theme = "Bibata-Modern-Ice";
+      };
+    };
+    
+    dotfiles = {
+      fish.enable = true;
+      kitty.enable = true;
+    };
+  };
+
+
 
   programs.firefox.enable = true;
 
@@ -175,6 +213,10 @@
    nwg-displays
    translate-shell
   ];
+
+
+  virtualisation.docker.enable = true;
+  users.users.rnadagoud.extraGroups = [ "docker" ];
 
   services.openssh.enable = true;
 
