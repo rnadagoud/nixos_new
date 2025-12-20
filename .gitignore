@@ -1,0 +1,7 @@
+# Hardware-specific files you might not want to track
+result
+*.qcow2
+
+# Backup files
+*.backup
+*~
