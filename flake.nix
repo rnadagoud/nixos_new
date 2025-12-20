@@ -2,16 +2,18 @@
   description = "Rahul's NixOS Configuration";
 
   inputs = {
-    # Use nixos-25.11 to match your system.stateVersion
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     
-    # Optional: Add unstable for newer packages
-    # nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    zen-browser = {
+      url = "github:0xc000022070/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, ... }: {
+  outputs = { self, nixpkgs, zen-browser, ... }: {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
+      specialArgs = { inherit zen-browser; }; 
       modules = [ 
         ./configuration.nix 
       ];

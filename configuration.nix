@@ -104,6 +104,7 @@
    # Browsers & Web
    tor
    tor-browser
+   zen-browser.packages."${pkgs.system}".twilight
    # development Tools
    vscode
    android-studio
