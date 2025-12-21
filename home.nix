@@ -1,8 +1,8 @@
-{ config, pkgs, illogical-impulse, ... }:
+{ config, pkgs, illogical-flake, ... }:
 
 {
   imports = [
-    illogical-impulse.homeManagerModules.default
+    illogical-flake.homeManagerModules.default
   ];
 
   programs.illogical-impulse = {
@@ -18,9 +18,6 @@
   home.username = "rnadagoud";
   home.homeDirectory = "/home/rnadagoud";
   home.stateVersion = "25.11";
-
-  home.packages = with pkgs; [
-  ];
 
   programs.home-manager.enable = true;
 }

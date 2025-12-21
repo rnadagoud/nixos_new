@@ -1,16 +1,13 @@
 { config, pkgs, zen-browser, ... }:
 
 {
-  imports =
-    [ 
-      ./hardware-configuration.nix
-    ];
+  imports = [ ./hardware-configuration.nix ];
 
-  hardware.graphics = {
-    enable = true;
-  };
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  hardware.graphics.enable = true;
   services.xserver.videoDrivers = ["nvidia"];
+
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = false;
@@ -18,13 +15,13 @@
     open = true;
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
-  };  
+  };
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "nixos";
   networking.networkmanager.enable = true;
 
   time.timeZone = "Asia/Kolkata";
@@ -41,23 +38,27 @@
     LC_TIME = "en_IN";
   };
 
-  services.xserver.displayManager.gdm = {
+  services.xserver = {
     enable = true;
-    wayland = true;
+    xkb = {
+      layout = "us";
+      variant = "";
+    };
+    displayManager = {
+      sddm.enable = false;
+      gdm = {
+        enable = true;
+        wayland = true;
+      };
+    };
   };
 
+  services.desktopManager.plasma6.enable = false;
+
+  # Required by illogical-impulse
   programs.hyprland.enable = true;
-  services.geoclue2.enable = true;  
-  services.xserver.enable = true;
-
-  services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
-
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
-  };
-
+  services.geoclue2.enable = true;
+  
   services.printing.enable = true;
 
   services.pulseaudio.enable = false;
@@ -72,13 +73,13 @@
   users.users.rnadagoud = {
     isNormalUser = true;
     description = "Rahul Nadagoud";
-    extraGroups = [ "networkmanager" "wheel" ];
-    ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
   };
 
   programs.firefox.enable = true;
   nixpkgs.config.allowUnfree = true;
 
+  # Recommended fonts for illogical-impulse
   fonts.packages = with pkgs; [
     rubik
     nerd-fonts.ubuntu
@@ -89,100 +90,28 @@
   ];
 
   environment.systemPackages = with pkgs; [
-   vim 
-   wget
-   git
-   # comms and social
-   discord
-   slack
-   zoom
-   # media & Entertainment
-   vlc
-   spotify
-   obs-studio
-   cava
-   easyeffects
-   # Browsers & Web
-   tor
-   tor-browser
-   zen-browser.packages."${pkgs.system}".twilight
-   # development Tools
-   vscode
-   android-studio
-   docker
-   docker-compose
-   neovim
-   kitty
-   alacritty
-   mold
-   # Virtualization
-   virt-manager
-   qemu_full
-   # File Management & Utilities
-   kdePackages.dolphin
-   nautilus
-   btop
-   rsync
-   aria2
-   # Office & Productivity
-   libreoffice-still
-   obsidian
-   anki
-   foliate
-   # gaming
-   steam
-   lutris
-   heroic
-   qbittorrent
-   # Graphics & Design
-   blender
-   gimp
-   imagemagick
-   inkscape
-   # System Utilities
-   brightnessctl
-   dunst
-   fuzzel
-   wofi
-   hyprshot
-   wl-clipboard
-   cliphist
-   playerctl
-   pavucontrol
-   # Fonts
-   noto-fonts
-   nerd-fonts.jetbrains-mono
-   hack-font
-   twemoji-color-font
-   # Development Languages/Runtimes
-   python315
-   nodejs_24
-   yarn
-   rustup
-   go
-   # CLI Tools
-   bat
-   eza
-   fish
-   starship
-   ripgrep
-   ripgrep-all
-   tree-sitter
-   jq
-   fzf
-   # Other Applications
-   postman
-   cameractrls
-   nwg-displays
-   translate-shell
+    vim wget git
+    discord slack zoom-us
+    vlc spotify obs-studio cava easyeffects
+    tor tor-browser
+    zen-browser.packages."${pkgs.system}".twilight
+    vscode android-studio docker docker-compose neovim
+    kitty alacritty
+    virt-manager qemu_full
+    nautilus btop htop rsync aria2
+    libreoffice-still obsidian anki-bin foliate
+    steam lutris heroic qbittorrent
+    blender gimp imagemagick inkscape
+    brightnessctl dunst fuzzel wofi grim slurp
+    wl-clipboard cliphist playerctl pavucontrol
+    python3 nodejs yarn rustup go
+    bat eza fish starship ripgrep ripgrep-all tree-sitter jq fzf
+    postman cameractrls nwg-displays translate-shell mold
   ];
 
+  virtualisation.docker.enable = true;
   services.openssh.enable = true;
-
   networking.firewall.enable = false;
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  system.stateVersion = "25.11"; 
-
+  system.stateVersion = "25.11";
 }
