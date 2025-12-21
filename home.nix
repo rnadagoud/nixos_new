@@ -7,7 +7,7 @@
 
   programs.illogical-impulse = {
     enable = true;
-
+    # These manage the shell tools; leave enabled to match the "look"
     dotfiles = {
       fish.enable = true;
       kitty.enable = true;
@@ -15,44 +15,25 @@
     };
   };
 
-  # Override Hyprland settings
-  wayland.windowManager.hyprland = {
-    enable = true;
+  xdg.configFile."hypr/userconfigs.conf".text = ''
+    # Monitor configuration
+    monitor = Virtual-1,1920x1080,0x0,1
     
-    settings = {
-      # Monitor configuration
-      monitor = [
-        "Virtual-1,1920x1080,0x0,1"
-        # or "DP-1,preferred,auto,1"
-      ];
-      
-      # Input settings (inverted scrolling)
-      input = {
-        touchpad = {
-          natural_scroll = true;  # Inverted/natural scrolling
-        };
-        sensitivity = 0;
-      };
-      
-      # Cursor theme
-      exec-once = [
-        "hyprctl setcursor Bibata-Modern-Ice 24"
-      ];
-    };
-    
-    # Additional custom config that doesn't fit in settings
-    extraConfig = ''
-      # Any raw Hyprland config here
-      input {
+    # Input settings
+    input {
+      natural_scroll = yes
+      touchpad {
         natural_scroll = yes
       }
-    '';
-  };
+      sensitivity = 0
+    }
 
+    # Cursor theme (End-4 dots usually handle this, but you can force it)
+    exec-once = hyprctl setcursor Bibata-Modern-Ice 24
+  '';
 
   home.username = "rnadagoud";
   home.homeDirectory = "/home/rnadagoud";
   home.stateVersion = "25.11";
-
   programs.home-manager.enable = true;
 }
