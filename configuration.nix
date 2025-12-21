@@ -11,35 +11,24 @@
   };
 
   services.xserver.videoDrivers = ["nvidia"];
-
   hardware.nvidia = {
-
     modesetting.enable = true;
-
     powerManagement.enable = false;
-
     powerManagement.finegrained = false;
-
     open = true;
-
     nvidiaSettings = true;
-
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };  
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   networking.hostName = "nixos"; # Define your hostname.
-
   networking.networkmanager.enable = true;
 
   time.timeZone = "Asia/Kolkata";
-
   i18n.defaultLocale = "en_IN";
-
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "en_IN";
     LC_IDENTIFICATION = "en_IN";
@@ -51,6 +40,17 @@
     LC_TELEPHONE = "en_IN";
     LC_TIME = "en_IN";
   };
+
+  # Required for illogical-impulse
+  services.xserver.enable = true;
+  services.xserver.displayManager.gdm = {
+    enable = true;
+    wayland = true;
+  };
+
+  programs.hyprland.enable = true;
+
+  services.geoclue2.enable = true;  
 
   services.xserver.enable = true;
 
@@ -77,15 +77,20 @@
     isNormalUser = true;
     description = "Rahul Nadagoud";
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-      kdePackages.kate
-    #  thunderbird
     ];
   };
 
   programs.firefox.enable = true;
-
   nixpkgs.config.allowUnfree = true;
+
+  fonts.packages = with pkgs; [
+    rubik
+    nerd-fonts.ubuntu
+    nerd-fonts.jetbrains-mono
+    noto-fonts
+    hack-font
+    twemoji-color-font
+  ];
 
   environment.systemPackages = with pkgs; [
    vim 
