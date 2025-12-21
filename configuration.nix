@@ -53,7 +53,10 @@
     };
   };
 
-  services.desktopManager.plasma6.enable = false;
+
+  virtualisation.libvirtd.enable = true;
+  programs.dconf.enable = true;
+  
 
   # Required by illogical-impulse
   programs.hyprland.enable = true;
@@ -73,7 +76,7 @@
   users.users.rnadagoud = {
     isNormalUser = true;
     description = "Rahul Nadagoud";
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" ];
   };
 
   programs.firefox.enable = true;
