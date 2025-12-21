@@ -7,18 +7,18 @@
 
   programs.illogical-impulse = {
     enable = true;
-    # These manage the shell tools; leave enabled to match the "look"
     dotfiles = {
       fish.enable = true;
       kitty.enable = true;
       starship.enable = true;
+      # Remove the path line - it's handled at the flake level
     };
   };
 
   xdg.configFile."hypr/userconfigs.conf".text = ''
     # Monitor configuration
     monitor = Virtual-1,1920x1080,0x0,1
-    
+
     # Input settings
     input {
       natural_scroll = yes

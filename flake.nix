@@ -10,14 +10,14 @@
     };
 
     dotfiles-src = {
-      url = "path:./my-dots"; 
+      url = "path:./my-dots";
       flake = false;
     };
-
 
     illogical-flake = {
       url = "github:soymou/illogical-flake";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.dotfiles.follows = "dotfiles-src";  # THIS IS THE KEY LINE
     };
 
     zen-browser = {
@@ -32,7 +32,7 @@
       specialArgs = { inherit zen-browser; };
       modules = [
         ./configuration.nix
-        
+
         home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
