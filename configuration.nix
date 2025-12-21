@@ -107,6 +107,7 @@
     python3 nodejs yarn rustup go
     bat eza fish starship ripgrep ripgrep-all tree-sitter jq fzf
     postman cameractrls nwg-displays translate-shell mold
+    pkgs.bibata-cursors
   ];
 
   virtualisation.docker.enable = true;
