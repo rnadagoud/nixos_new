@@ -41,17 +41,13 @@
     LC_TIME = "en_IN";
   };
 
-  # Required for illogical-impulse
-  services.xserver.enable = true;
   services.xserver.displayManager.gdm = {
     enable = true;
     wayland = true;
   };
 
   programs.hyprland.enable = true;
-
   services.geoclue2.enable = true;  
-
   services.xserver.enable = true;
 
   services.displayManager.sddm.enable = true;
