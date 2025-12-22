@@ -153,7 +153,9 @@
     protonvpn-gui
     protonmail-desktop
     ente-auth
-    notion-app
+    notion-app-enhanced
+    plymouth
+    adi1090x-plymouth-themes
   ];
 
   environment.sessionVariables = {
