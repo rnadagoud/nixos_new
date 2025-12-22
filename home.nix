@@ -64,7 +64,8 @@
   programs.fish = {
     enable = true;
     shellInit = ''
-      # Apply illogical-impulse terminal colors
+      set -g fish_greeting
+
       set -l color_file "$HOME/.local/state/quickshell/user/generated/terminal/sequences.txt"
       if test -f $color_file
         cat $color_file 2>/dev/null
