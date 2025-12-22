@@ -51,21 +51,12 @@
     };
   };
 
-  qt = {
-    enable = true;
-    platformTheme.name = "gtk3";
-    style.name = "adwaita-dark";
-  };
-
   home.username = "rnadagoud";
   home.homeDirectory = "/home/rnadagoud";
   home.stateVersion = "25.11";
   programs.home-manager.enable = true;
 
   home.sessionVariables = {
-    QT_QPA_PLATFORM = "wayland;xcb";
-    QT_QPA_PLATFORMTHEME = "gtk3";
-    QT_STYLE_OVERRIDE = "adwaita-dark";
     QML2_IMPORT_PATH = "${pkgs.qt6.qtdeclarative}/${pkgs.qt6.qtbase.qtQmlPrefix}";
     QML_IMPORT_PATH = "${pkgs.qt6.qtdeclarative}/${pkgs.qt6.qtbase.qtQmlPrefix}";
   };

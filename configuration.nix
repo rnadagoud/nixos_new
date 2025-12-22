@@ -79,7 +79,6 @@
     extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" ];
   };
 
-  programs.firefox.enable = true;
   nixpkgs.config.allowUnfree = true;
 
   fonts.packages = with pkgs; [
@@ -92,7 +91,6 @@
   ];
 
   environment.systemPackages = with pkgs; [
-    kdePackages.dolphin    
     vim wget git    
     discord slack zoom-us    
     vlc spotify obs-studio cava easyeffects    
@@ -123,7 +121,6 @@
     hypridle
     hyprpaper
     hyprshot
-    qt6.full
     qt6.qtbase
     qt6.qtdeclarative
     qt6.qtwayland
@@ -140,8 +137,7 @@
     qt5.qtquickcontrols
     qt5.qtquickcontrols2
     qt5.qtsvg    
-    libsForQt5.polkit-kde-agent
-    kdePackages.polkit-kde-agent-1    
+    kdePackages.polkit-kde-agent-1 
     gst_all_1.gst-plugins-base
     gst_all_1.gst-plugins-good
     gst_all_1.gst-plugins-bad
@@ -156,7 +152,6 @@
 
   environment.sessionVariables = {
     QT_QPA_PLATFORM = "wayland;xcb";
-    QT_QPA_PLATFORMTHEME = "qt6ct";
     QT_AUTO_SCREEN_SCALE_FACTOR = "1";
     QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
     QML2_IMPORT_PATH = "${pkgs.qt6.qtdeclarative}/${pkgs.qt6.qtbase.qtQmlPrefix}";
