@@ -56,6 +56,12 @@
 
   virtualisation.libvirtd.enable = true;
   programs.dconf.enable = true;
+
+  boot.plymouth = {
+    enable = true;
+    theme = "owl";
+    themePackages = [ pkgs.adi1090x-plymouth-themes ];
+  };
   
   programs.hyprland.enable = true;
   services.geoclue2.enable = true;
