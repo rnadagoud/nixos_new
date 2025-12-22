@@ -17,7 +17,7 @@
     illogical-flake = {
       url = "github:soymou/illogical-flake";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.dotfiles.follows = "dotfiles-src";  # THIS IS THE KEY LINE
+      inputs.dotfiles.follows = "dotfiles-src";  
     };
 
     zen-browser = {
