@@ -148,6 +148,10 @@
     networkmanagerapplet
     xdg-utils
     xwayland
+    proton-pass
+    protonvpn-gui
+    protonmail-desktop
+    ente-auth
   ];
 
   environment.sessionVariables = {
