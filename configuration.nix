@@ -53,12 +53,9 @@
     };
   };
 
-
   virtualisation.libvirtd.enable = true;
   programs.dconf.enable = true;
   
-
-  # Required by illogical-impulse
   programs.hyprland.enable = true;
   services.geoclue2.enable = true;
   
@@ -73,6 +70,9 @@
     pulse.enable = true;
   };
 
+  hardware.bluetooth.enable = true;
+  services.blueman.enable = true;
+
   users.users.rnadagoud = {
     isNormalUser = true;
     description = "Rahul Nadagoud";
@@ -82,7 +82,6 @@
   programs.firefox.enable = true;
   nixpkgs.config.allowUnfree = true;
 
-  # Recommended fonts for illogical-impulse
   fonts.packages = with pkgs; [
     rubik
     nerd-fonts.ubuntu
@@ -93,25 +92,84 @@
   ];
 
   environment.systemPackages = with pkgs; [
-    vim wget git
-    discord slack zoom-us
-    vlc spotify obs-studio cava easyeffects
+    kdePackages.dolphin    
+    vim wget git    
+    discord slack zoom-us    
+    vlc spotify obs-studio cava easyeffects    
     tor tor-browser
-    zen-browser.packages."${pkgs.system}".twilight
-    vscode android-studio docker docker-compose neovim
-    kitty alacritty
-    virt-manager qemu_full
-    nautilus btop htop rsync aria2
-    libreoffice-still obsidian anki-bin foliate
-    steam lutris heroic qbittorrent
-    blender gimp imagemagick inkscape
+    zen-browser.packages."${pkgs.system}".twilight    
+    vscode android-studio docker docker-compose neovim    
+    kitty alacritty    
+    virt-manager qemu_full    
+    nautilus btop htop rsync aria2    
+    libreoffice-still obsidian anki-bin foliate    
+    steam lutris heroic qbittorrent    
+    blender gimp imagemagick inkscape    
     brightnessctl dunst fuzzel wofi grim slurp
-    wl-clipboard cliphist playerctl pavucontrol
-    python3 nodejs yarn rustup go
-    bat eza fish starship ripgrep ripgrep-all tree-sitter jq fzf
-    postman cameractrls nwg-displays translate-shell mold
+    wl-clipboard cliphist playerctl pavucontrol    
+    python3 nodejs yarn rustup go    
+    bat eza fish starship ripgrep ripgrep-all tree-sitter jq fzf    
+    postman cameractrls nwg-displays translate-shell mold    
     pkgs.bibata-cursors
+    adw-gtk3
+    adwaita-icon-theme    
+    (python3.withPackages (ps: with ps; [
+      material-color-utilities
+      pillow
+    ]))
+    hyprcursor
+    hyprpicker
+    hyprlock
+    hypridle
+    hyprpaper
+    hyprshot
+    qt6.full
+    qt6.qtbase
+    qt6.qtdeclarative
+    qt6.qtwayland
+    qt6.qtsvg
+    qt6.qtmultimedia
+    qt6.qt5compat
+    qt6.qttools
+    qt6.qttranslations    
+    kdePackages.kdeclarative    
+    qt5.qtbase
+    qt5.qtdeclarative
+    qt5.qtwayland
+    qt5.qtgraphicaleffects
+    qt5.qtquickcontrols
+    qt5.qtquickcontrols2
+    qt5.qtsvg    
+    libsForQt5.polkit-kde-agent
+    kdePackages.polkit-kde-agent-1    
+    gst_all_1.gst-plugins-base
+    gst_all_1.gst-plugins-good
+    gst_all_1.gst-plugins-bad
+    gst_all_1.gst-plugins-ugly
+    gst_all_1.gst-libav    
+    bluez
+    bluez-tools    
+    networkmanagerapplet
+    xdg-utils
+    xwayland
   ];
+
+  environment.sessionVariables = {
+    QT_QPA_PLATFORM = "wayland;xcb";
+    QT_QPA_PLATFORMTHEME = "qt6ct";
+    QT_AUTO_SCREEN_SCALE_FACTOR = "1";
+    QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
+    QML2_IMPORT_PATH = "${pkgs.qt6.qtdeclarative}/${pkgs.qt6.qtbase.qtQmlPrefix}";
+    QML_IMPORT_PATH = "${pkgs.qt6.qtdeclarative}/${pkgs.qt6.qtbase.qtQmlPrefix}";
+  };
+
+  xdg.portal = {
+    enable = true;
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-gtk
+      xdg-desktop-portal-hyprland
+    ];
+  };
 
   virtualisation.docker.enable = true;
   services.openssh.enable = true;

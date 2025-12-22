@@ -11,29 +11,80 @@
       fish.enable = true;
       kitty.enable = true;
       starship.enable = true;
-      # Remove the path line - it's handled at the flake level
     };
   };
 
-  xdg.configFile."hypr/userconfigs.conf".text = ''
-    # Monitor configuration
-    monitor = Virtual-1,1920x1080,0x0,1
+  gtk = {
+    enable = true;
+    
+    theme = {
+      name = "adw-gtk3-dark";
+      package = pkgs.adw-gtk3;
+    };
+    
+    iconTheme = {
+      name = "Adwaita";
+      package = pkgs.adwaita-icon-theme;
+    };
+    
+    cursorTheme = {
+      name = "Bibata-Modern-Classic";
+      package = pkgs.bibata-cursors;
+      size = 24;
+    };
+    
+    gtk3.extraConfig = {
+      gtk-application-prefer-dark-theme = true;
+    };
+    
+    gtk4.extraConfig = {
+      gtk-application-prefer-dark-theme = true;
+    };
+  };
+  
+  dconf.settings = {
+    "org/gnome/desktop/interface" = {
+      color-scheme = "prefer-dark";
+      gtk-theme = "adw-gtk3-dark";
+      icon-theme = "Adwaita";
+      cursor-theme = "Bibata-Modern-Classic";
+    };
+  };
 
-    # Input settings
-    input {
-      natural_scroll = yes
-      touchpad {
-        natural_scroll = yes
-      }
-      sensitivity = 0
-    }
-
-    # Cursor theme (End-4 dots usually handle this, but you can force it)
-    exec-once = hyprctl setcursor Bibata-Modern-Ice 24
-  '';
+  qt = {
+    enable = true;
+    platformTheme.name = "gtk3";
+    style.name = "adwaita-dark";
+  };
 
   home.username = "rnadagoud";
   home.homeDirectory = "/home/rnadagoud";
   home.stateVersion = "25.11";
   programs.home-manager.enable = true;
+
+  home.sessionVariables = {
+    QT_QPA_PLATFORM = "wayland;xcb";
+    QT_QPA_PLATFORMTHEME = "gtk3";
+    QT_STYLE_OVERRIDE = "adwaita-dark";
+    QML2_IMPORT_PATH = "${pkgs.qt6.qtdeclarative}/${pkgs.qt6.qtbase.qtQmlPrefix}";
+    QML_IMPORT_PATH = "${pkgs.qt6.qtdeclarative}/${pkgs.qt6.qtbase.qtQmlPrefix}";
+  };
+
+  programs.fish = {
+    enable = true;
+    shellInit = ''
+      # Apply illogical-impulse terminal colors
+      set -l color_file "$HOME/.local/state/quickshell/user/generated/terminal/sequences.txt"
+      if test -f $color_file
+        cat $color_file 2>/dev/null
+      end
+    '';
+  };
+  
+  home.activation.fixColorScripts = config.lib.dag.entryAfter ["writeBoundary"] ''
+    SCRIPT_DIR="$HOME/.config/quickshell/ii/scripts"
+    if [ -d "$SCRIPT_DIR" ]; then
+      $DRY_RUN_CMD find "$SCRIPT_DIR" -type f \( -name "*.sh" -o -name "*.py" \) -exec chmod +x {} \; 2>/dev/null || true
+    fi
+  '';
 }
