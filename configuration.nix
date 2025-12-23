@@ -166,7 +166,7 @@
   ];
 
   environment.sessionVariables = {
-    QT_QPA_PLATFORM = "wayland;xcb";
+    NIXOS_OZONE_WL = "1";
     QT_AUTO_SCREEN_SCALE_FACTOR = "1";
     QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
     QML2_IMPORT_PATH = "${pkgs.qt6.qtdeclarative}/${pkgs.qt6.qtbase.qtQmlPrefix}";
@@ -183,6 +183,13 @@
 
   services.gnome.gnome-keyring.enable = true;
   programs.seahorse.enable = true;
+
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 7d";
+  };
+  nix.settings.auto-optimise-store = true;
 
   virtualisation.docker.enable = true;
   services.openssh.enable = true;
