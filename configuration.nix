@@ -162,6 +162,7 @@
     notion-app-enhanced
     plymouth
     adi1090x-plymouth-themes
+    geeqie
   ];
 
   environment.sessionVariables = {
