@@ -163,6 +163,8 @@
     plymouth
     adi1090x-plymouth-themes
     geeqie
+    claude-code
+    gemini-cli-bin
   ];
 
   environment.sessionVariables = {
