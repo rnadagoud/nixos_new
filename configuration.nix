@@ -112,7 +112,7 @@
     blender gimp imagemagick inkscape    
     brightnessctl dunst fuzzel wofi grim slurp
     wl-clipboard cliphist playerctl pavucontrol    
-    python3 nodejs yarn rustup go    
+    python3 nodejs yarn rustup go gcc gnumake
     bat eza fish starship ripgrep ripgrep-all tree-sitter jq fzf    
     postman cameractrls nwg-displays translate-shell mold    
     pkgs.bibata-cursors
@@ -165,6 +165,7 @@
     geeqie
     claude-code
     gemini-cli-bin
+    code-cursor
   ];
 
   environment.sessionVariables = {
