@@ -21,6 +21,17 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
+  services.udev.extraRules = ''
+    # Logitech G304 - disable power management
+    ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="046d", ATTR{power/control}="on", ATTR{power/autosuspend}="-1"
+  
+    # For the HID device itself
+    ACTION=="add", SUBSYSTEM=="hid", KERNELS=="*046d*", ATTR{power/control}="on"
+  '';
+
+
+  boot.blacklistedKernelModules = [ ];
+
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
 
@@ -45,6 +56,13 @@
       variant = "";
     };
   };
+
+  environment.etc."libinput/local-overrides.quirks".text = ''
+    [Logitech G304 Scroll Fix]
+    MatchVendor=0x046D
+    MatchProduct=0x4074
+    AttrEventCode=-REL_WHEEL_HI_RES;-REL_HWHEEL_HI_RES
+  '';
 
   services.displayManager = {
     sddm.enable = false;
@@ -83,7 +101,7 @@
   users.users.rnadagoud = {
     isNormalUser = true;
     description = "Rahul Nadagoud";
-    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" "input" ];
   };
 
   nixpkgs.config.allowUnfree = true;
@@ -101,8 +119,8 @@
     vim wget git    
     discord slack zoom-us    
     vlc spotify obs-studio cava easyeffects    
-    tor tor-browser
-    zen-browser.packages."${pkgs.stdenv.hostPlatform.system}".twilight   
+    tor tor-browser firefox
+    #zen-browser.packages."${pkgs.stdenv.hostPlatform.system}".twilight   
     vscode android-studio docker docker-compose neovim    
     kitty alacritty    
     virt-manager qemu_full    
@@ -166,7 +184,18 @@
     claude-code
     gemini-cli-bin
     code-cursor
+    ffmpeg
+    gnome-network-displays
+    libratbag
+    piper
+    usbutils
+    evtest
+    libinput
   ];
+
+  services.flatpak.enable = true;
+
+  services.ratbagd.enable = true;
 
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";
@@ -197,6 +226,42 @@
   virtualisation.docker.enable = true;
   services.openssh.enable = true;
   networking.firewall.enable = false;
+
+  systemd.services.journal-folder-create = {
+    description = "Create daily video journal folder";
+    serviceConfig = {
+      Type = "oneshot";
+      User = "rnadagoud";
+      ExecStart = "${pkgs.bash}/bin/bash /home/rnadagoud/bin/create-journal-folder.sh";
+    };
+  };
+
+  systemd.timers.journal-folder-create = {
+    description = "Create daily video journal folder timer";
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "06:00";
+      Persistent = true;  
+    };
+  };
+
+  systemd.services.journal-video-stitch = {
+    description = "Stitch video journal clips";
+    serviceConfig = {
+      Type = "oneshot";
+      User = "rnadagoud";
+      ExecStart = "${pkgs.bash}/bin/bash /home/rnadagoud/bin/stitch-videos.sh";
+    };
+  };
+
+  systemd.timers.journal-video-stitch = {
+    description = "Stitch video journal clips timer";
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "*:0/5"; 
+      Persistent = true;
+    };
+  };
 
   system.stateVersion = "25.11";
 }
