@@ -101,7 +101,7 @@
   users.users.rnadagoud = {
     isNormalUser = true;
     description = "Rahul Nadagoud";
-    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" "input" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" "input" "plugdev" ];
   };
 
   nixpkgs.config.allowUnfree = true;
@@ -191,10 +191,17 @@
     usbutils
     evtest
     libinput
+    tailscale
+    libmtp
+    mtpfs
+    android-file-transfer
   ];
 
+  services.gvfs.enable = true;
+  services.udev.packages = [ pkgs.libmtp ];
+  hardware.nvidia-container-toolkit.enable = true;
+  services.tailscale.enable = true;
   services.flatpak.enable = true;
-
   services.ratbagd.enable = true;
 
   environment.sessionVariables = {
