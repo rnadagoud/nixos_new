@@ -24,3 +24,16 @@ if status is-interactive # Commands to run in interactive sessions can go here
     alias q 'qs -c ii'
     
 end
+
+
+  # direnv integration
+  if command -v direnv > /dev/null
+      eval (direnv hook fish)
+  end
+
+  # NorskTutor aliases (optional)
+  alias norsk='cd /home/rnadagoud/Projects/NorskTutor'
+  alias norsk-run='cd /home/rnadagoud/Projects/NorskTutor && python src/main.py'
+  alias norsk-test='cd /home/rnadagoud/Projects/NorskTutor && pytest tests/ -v'
+  alias norsk-format='cd /home/rnadagoud/Projects/NorskTutor && black src/ tests/ && isort src/ tests/'
+  

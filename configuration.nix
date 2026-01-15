@@ -195,6 +195,8 @@
     libmtp
     mtpfs
     android-file-transfer
+    antigravity
+    android-tools
   ];
 
   services.gvfs.enable = true;
@@ -203,6 +205,20 @@
   services.tailscale.enable = true;
   services.flatpak.enable = true;
   services.ratbagd.enable = true;
+
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+
+    extraConfig = ''
+      [server]
+      allow-interfaces=wlp*,eth*
+      deny-interfaces=veth*,docker*,virbr*,br-*
+    '';
+  };
+
+  
 
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";
